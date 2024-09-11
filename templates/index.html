@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDF Q&A</title>
+    <style>
+        body {
+            background-color: #f4f4f9;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 60%;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+        .form-group input[type="file"], .form-group input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        .form-group input[type="file"] {
+            padding: 5px;
+        }
+        .form-group button {
+            background-color: #ff5722;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .form-group button:hover {
+            background-color: #e64a19;
+        }
+        .summary-section, .answer-section, .error-section {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+        }
+        .summary-section h2, .answer-section h2 {
+            color: #ff5722;
+            font-size: 18px;
+        }
+        textarea {
+            width: 100%;
+            height: 100px;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            resize: none;
+            background-color: #fafafa;
+        }
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 30px;
+            background-color: #ff5722;
+            color: white;
+            font-size: 16px;
+        }
+        .navbar .model-selection {
+            position: relative;
+        }
+        .navbar select {
+            padding: 8px;
+            border-radius: 4px;
+            border: none;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="navbar">
+        <h1>PDF Summary and Q&A</h1>
+        <div class="model-selection">
+            <label for="model">Select Model:</label>
+            <select id="model" name="model">
+                <option value="gpt3.5" selected>GPT-3.5</option>
+                <option value="llama2">LLaMA-2</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="upload-section form-group">
+            <form method="POST" enctype="multipart/form-data">
+                <label for="pdf">Upload PDF:</label>
+                <input type="file" id="pdf" name="pdf" required>
+                <button type="submit">Upload</button>
+            </form>
+        </div>
+
+        {% if summary %}
+        <div class="summary-section">
+            <h2>Summary:</h2>
+            <textarea readonly>{{ summary }}</textarea>
+        </div>
+        {% endif %}
+
+        <div class="question-section form-group">
+            <form method="POST">
+                <label for="question">Ask a Question:</label>
+                <input type="text" id="question" name="question" placeholder="Type your question here..." required>
+                <button type="submit">Submit Question</button>
+            </form>
+        </div>
+
+        {% if answer %}
+        <div class="answer-section">
+            <h2>Answer:</h2>
+            <textarea readonly>{{ answer }}</textarea>
+        </div>
+        {% endif %}
+
+        {% if error %}
+        <div class="error-section">
+            <p style="color: red;">{{ error }}</p>
+        </div>
+        {% endif %}
+    </div>
+
+</body>
+</html>
